@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Amostras</title>
+    <!-- Inclua o CSS e JS do Plotly aqui -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Estilo CSS -->
+    <style>
+        body {
+            background-color: #000000;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-container select,
+        .filter-container button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
+        .filter-container select {
+            background-color: #444;
+            color: #f0f0f0;
+        }
+        .filter-container button {
+            background-color: #ffffff;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filter-container button:hover {
+            background-color: #cccccc;
+        }
+        /* Estilos adicionais conforme necessário */
+        .chart-container {
+            margin-top: 20px;
+        }
+        /* Estilo para o contêiner de texto */
+        .text-container {
+            background-color: #333; /* Cor de fundo escura */
+            color: #f0f0f0; /* Cor do texto */
+            border-radius: 8px; /* Bordas arredondadas */
+            padding: 20px; /* Espaçamento interno */
+            margin: 20px 0; /* Espaçamento vertical */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra */
+            font-size: 1rem; /* Tamanho da fonte */
+            line-height: 1.5; /* Altura da linha */
+            max-width: 800px; /* Largura máxima */
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center; /* Alinhamento centralizado */
+            border: 1px solid #444; /* Borda */
+        }
+
+        /* Estilos adicionais para elementos internos, se necessário */
+        .text-container p {
+            margin-bottom: 10px; /* Margem inferior */
+        }
+
+        .text-container strong {
+            color: #ffffff; /* Texto destacado em branco */
+            font-weight: bold; /* Negrito */
+        }
+
+        .text-container em {
+            color: #cccccc; /* Texto em itálico em cinza claro */
+            font-style: italic; /* Itálico */
+        }
+    </style>
+</head>
+<body>
+    <!-- Repetições de Amostras -->
+    <h1>Repetições de amostras</h1>
+    <form method="get">
+        <div class="filter-container">
+            {{ form.melhor_repeticao_name.label_tag }}
+            {{ form.melhor_repeticao_name }}
+            <button type="submit">Filtrar</button>
+        </div>
+    </form>
+    <div id="bar-chart-laboratorios" class="chart-container">
+        {{ chart_html_reps|safe }}
+        <!-- Contêiner estilizado para labs_text -->
+        <div id="lab-info" class="text-container">
+            {{ reps_text|safe }}
+        </div>
+    </div>
+
+    <!-- Laboratórios de Origem das Amostras -->
+    <h1>Laboratórios de origem das amostras</h1>
+    <form method="get">
+        <div class="filter-container">
+            {{ form.laboratorio_name.label_tag }}
+            {{ form.laboratorio_name }}
+            <button type="submit">Filtrar</button>
+        </div>
+    </form>
+    <div id="bar-chart-laboratorios" class="chart-container">
+        {{ chart_html_labs|safe }}
+        <!-- Contêiner estilizado para labs_text -->
+        <div id="lab-info" class="text-container">
+            {{ labs_text|safe }}
+        </div>
+    </div>
+
+    <!-- Gráfico de Dispersão (Qualidade) -->
+    <h1>Análise de Qualidade dos lotes</h1>
+    <form method="get">
+        <div class="filter-container">
+            {{ form.lote_number.label_tag }}
+            {{ form.lote_number }}
+            <button type="submit">Filtrar</button>
+        </div>
+    </form>
+    <div style="display: flex;">
+        <div style="flex: 1; margin-right: 10px;">
+            <div id="bar-chart-laboratorios-qualidade" class="chart-container">
+                {{ chart_html_qualidade|safe }}
+                <div id="lab-info" class="text-container">
+                    {{ qual_text|safe }}
+                </div>
+                <div id="lab-info" class="text-container">
+                    {{ reps2_text|safe }}
+                </div>
+            </div>
+        </div>      
+        <div style="flex: 1; margin-left: 10px;">
+            <div id="bar-chart-laboratorios-resultado" class="chart-container">
+                {{ chart_html_resultado|safe }}
+                <div id="lab-info" class="text-container">
+                    {{ resu_text|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div style="flex: 1; margin-left: 10px;">
+            <div id="bar-chart-laboratorios-resultado" class="chart-container">
+                {{ chart_html_var_hist|safe }}
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div style="flex: 1; margin-left: 10px;">
+            <div id="bar-chart-laboratorios-resultado" class="chart-container">
+                {{ chart_html_variante|safe }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

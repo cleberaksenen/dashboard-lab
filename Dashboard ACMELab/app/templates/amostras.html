@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <style>
+    /* Define o fundo preto para todo o corpo do documento */
+    body {
+      background-color: #000; /* Preto */
+      color: #fff; /* Branco para o texto */
+    }
+
+    /* Estilos para o container de grade */
+    .amostra-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    /* Estilos para os cartões de amostra */
+    .amostra-card {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      color: #fff; /* Branco para o texto dos cartões */
+    }
+
+    /* Classes de fundo baseadas na cobertura */
+    .amostra-card-vermelho {
+      background-color: #870b0b; 
+    }
+
+    .amostra-card-amarelo {
+      background-color: #554f0a; 
+    }
+
+    .amostra-card-verde {
+      background-color: #044606; 
+    }
+
+    /* Efeito hover para os cartões */
+    .amostra-card:hover {
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(255, 255, 255, 0.4); /* Brilho no hover */
+        transform: translateY(-2px);
+    }
+
+    /* Estilo para imagens dentro dos cartões */
+    .amostra-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* Estilos para os títulos dentro dos cartões */
+    .amostra-card h3, .amostra-card h2, .amostra-card p {
+        color: #fff; /* Branco para os textos */
+    }
+
+    /* Estilos responsivos para telas menores */
+    @media (max-width: 768px) {
+      .amostra-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Estilos para o formulário */
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    /* Estilos para o campo de texto */
+    input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #fff; /* Borda branca */
+        border-radius: 4px;
+        margin-right: 10px;
+        background-color: #333; /* Fundo escuro */
+        color: #fff; /* Texto branco */
+        transition: border-bottom-color 0.3s ease-in-out;
+    }
+
+    /* Foco no campo de texto */
+    input[type="text"]:focus {
+        outline: none;
+        border-bottom-color: #fff; /* Borda branca no foco */
+    }
+
+    /* Estilos para o botão */
+    button[type="submit"] {
+        background-color: #0096c7;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    /* Efeito hover no botão */
+    button[type="submit"]:hover {
+        background-color: #108eb8;
+    }
+
+    /* Estilo para a mensagem de nenhum resultado */
+    .no-results {
+      color: #fff; /* Branco para a mensagem de nenhum resultado */
+    }
+
+    /* Detalhes da amostra inicialmente ocultos */
+    .amostra-detalhes {
+      display: none; /* Oculta os detalhes por padrão */
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    /* Exibe os detalhes quando o cartão está ativo */
+    .amostra-card.active .amostra-detalhes {
+      display: block;
+    }
+
+  </style>
+
+  <form method="GET">
+    <input type="text" name="search" placeholder="Buscar lote...">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <div class="amostra-grid">
+    {% if amostras %}
+      {% for amostra in amostras %}
+        <!-- Adiciona a classe CSS com base no valor da cobertura -->
+        <div class="amostra-card {% if amostra.qualidade_id == 3 %}amostra-card-vermelho
+                         {% elif amostra.qualidade_id == 2 %}amostra-card-amarelo
+                         {% else %}amostra-card-verde{% endif %}">
+          <h2>{{ amostra.codigo_interno }}</h2>
+          <p>{{ amostra.linhagem }} - {{ amostra.estado }} - {{ amostra.mes_coleta }}</p>
+          
+          <!-- Detalhes ocultos inicialmente -->
+          <div class="amostra-detalhes">
+            <p>Lote: {{ amostra.lote }}</p>
+            <p>Cobertura: {{ amostra.cobertura }}</p>
+            <p>Profundidade: {{ amostra.profundidade_media }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">Nenhuma amostra encontrada.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.amostra-card');
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('active');
+        });
+      });
+    });
+  </script>
+
+{% endblock %}
+
+

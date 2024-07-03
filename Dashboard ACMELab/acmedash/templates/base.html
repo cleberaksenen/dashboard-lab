@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Roboto', 'Open Sans', sans-serif;
+      background-color: #000000; /* Fundo preto */
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1a1a3b; /* Azul escuro */
+      color: #ffffff; 
+      padding: 15px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    header .navbar-brand {
+      font-weight: 700;
+      font-size: 24px;
+      color: #ffffff; 
+    }
+
+    header .navbar-nav .nav-link {
+      color: #f1f1f1;
+      transition: color 0.3s ease;
+    }
+
+    header .navbar-nav .nav-link:hover {
+      color: #ffffff; /* Laranja */
+    }
+
+    header .navbar-nav .nav-link.active {
+      color: #ffffff; /* Laranja */
+    }
+
+    footer {
+      background-color: #1a1a3b; /* Azul escuro */
+      color: #ffffff; /* Laranja */
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid #333;
+      margin-top: 40px;
+    }
+
+    nav {
+      background-color: #1a1a3b; /* Azul escuro */
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #f1f1f1;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffffff;
+    }
+
+    nav ul li.active a {
+      color: #ffffff;
+    }
+
+    main {
+      padding: 30px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero {
+      background: linear-gradient(90deg, rgba(26,26,59,1) 0%, rgb(14, 94, 129) 100%); /* Gradiente de azul escuro para laranja */
+      color: #fff;
+      padding: 50px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px
+    }
+
+    .btn-primary {
+      background-color: #ffffff; /* Laranja */
+      border-color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #ffffff; /* Laranja escuro */
+      border-color: #ffffff;
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .card img {
+      border-radius: 5px 5px 0 0;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+      .hero p {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">ACMELab</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'laboratorio' %}">
+                      <i class="fas fa-flask"></i> Laboratório
+                  </a>
+              </li>
+              {% if user.is_authenticated %}
+                  <!-- Mensagem de boas-vindas destacada -->
+                  <li class="nav-item">
+                      <span class="navbar-text welcome" style="margin-right: 20px; font-weight: bold;">
+                          Bem-vindo, {{ user.username }}
+                      </span>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link authenticated" href="{% url 'new_amostra' %}">
+                          <i class="fas fa-plus-circle"></i> Cadastrar amostra
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link authenticated" href="{% url 'amostras_list' %}">
+                          <i class="fas fa-list"></i> Amostras
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link authenticated" href="{% url 'sc2_dashboard' %}">
+                          <i class="fas fa-chart-line"></i> Dashboard
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link authenticated" href="{% url 'logout' %}">
+                          <i class="fas fa-sign-out-alt"></i> Logout
+                      </a>
+                  </li>
+              {% else %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'register' %}">
+                          <i class="fas fa-user-plus"></i> Registro
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'login' %}">
+                          <i class="fas fa-sign-in-alt"></i> Login
+                      </a>
+                  </li>
+              {% endif %}
+          </ul>
+      </div>
+      </nav>
+    </div>
+
+  </header>
+
+  <main class="container">
+    <!-- <section class="hero">
+      <h1>Bem-vindo ao ACMELab</h1>
+      <p>Seu dashboard para gerenciamento de dados e monitoramento de informações.</p>
+    </section> -->
+
+    {% block content %}
+    <!-- Adicione conteúdo específico da página aqui -->
+    {% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 ACMELab. Desenvolvido por Cleber Aksenen.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

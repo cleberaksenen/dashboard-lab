@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <form method="post" class="login-form">
+        {% csrf_token %}
+
+        <h2 class="form-title">Login</h2>
+        
+        <div class="form-fields">
+            <style>
+                .form-fields label {
+                    color: #000000; /* Define a cor do texto como preto */
+                }
+            </style>
+            {{ login_form.as_p }}
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Entrar" class="submit-btn">
+        </div>
+    </form>
+</div>
+
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-title {
+        text-align: center;
+        color: #444;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .form-fields p {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .form-fields label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-fields input[type="text"],
+    .form-fields input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .submit-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        align-self: center;
+        width: 100%;
+    }
+
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
